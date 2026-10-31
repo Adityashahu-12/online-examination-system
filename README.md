@@ -1,82 +1,78 @@
 # ExamHub — Online Examination Management System
 
-An institutional web platform designed and built with **pure HTML5, CSS3, and JavaScript** exactly matching the architectural designs and mockup screenshots:
+An institutional web platform designed and built with **pure HTML5, CSS3, and JavaScript**, paired with a **Python Flask backend** and **Render Blueprint with Cloud PostgreSQL 16**.
+
 - **Figure 9.1:** ExamHub Home & Portal Landing Page
 - **Figure 9.2:** Public Examination Timetable & Faculty Dashboard
-- **Figure 9.3:** Schedule a New Examination Web Interface
+- **Figure 9.3:** Schedule a New Examination Web Interface with Exclusion Constraints
+- **Figure 9.4:** PostgreSQL 16 `psql` & Flask Backend Application
 
 ---
 
-## 🚀 Quick Start (Running the Website)
+## ☁️ Deploying to Render via Blueprint (`render.yaml`)
 
-Since this website is built using **pure HTML, CSS, and JS** with zero external dependencies or build tools, you can open and run it immediately using any of the following methods:
+This repository is fully configured for **Infrastructure-as-Code (IaC)** deployment on Render using the included `render.yaml`.
 
-### Method 1: Double-Click
-Simply double-click `index.html` in your file explorer to open it directly in Google Chrome, Microsoft Edge, or any modern browser.
+### Step 1: Push Code to GitHub
 
-### Method 2: Python Simple HTTP Server
-Open PowerShell in this directory and run:
+1. Create a new empty repository on [GitHub](https://github.com/new), for example named: `online-examination-system`.
+2. In your terminal (PowerShell), link and push this repo:
+```powershell
+# Set your remote URL (replace <your-github-username> with your GitHub username)
+git remote add origin https://github.com/<your-github-username>/online-examination-system.git
+
+# Rename branch to main if needed & push
+git branch -M main
+git push -u origin main
+```
+
+---
+
+### Step 2: One-Click Deploy on Render
+
+1. Log into your [Render Dashboard](https://dashboard.render.com/).
+2. Click **New +** at the top right and select **Blueprint**.
+3. Connect your GitHub account and choose the `online-examination-system` repository.
+4. Render will automatically parse [`render.yaml`](./render.yaml) and discover:
+   - **Database:** `examhub-postgres` (PostgreSQL 16, free tier, region: Oregon).
+   - **Web Service:** `examhub-online-exam-system` (Python 3.11 with Gunicorn).
+   - **Environment Variable:** Automatic injection of `DATABASE_URL` linking the web service to the database.
+5. Click **Apply**. Render will:
+   1. Spin up the cloud PostgreSQL instance.
+   2. Build the Python web service with `pip install -r requirements.txt`.
+   3. Launch `gunicorn server:app`.
+   4. Execute [`init_db.sql`](./init_db.sql) to activate `btree_gist`, create all 6 tables, and seed default records.
+   5. Give you a public live URL: `https://examhub-online-exam-system.onrender.com`.
+
+---
+
+## 🚀 Local Execution (Two Modes)
+
+### Mode A: Standalone Static Mode (Pure HTML/CSS/JS)
+Double-click [`index.html`](./index.html) or run:
 ```powershell
 python -m http.server 5000
 ```
-Then open [http://localhost:5000](http://localhost:5000) in your browser.
+Then visit [http://localhost:5000](http://localhost:5000). The frontend runs in client-side simulated mode with `localStorage` persistence.
 
-### Method 3: Node `npx serve`
+### Mode B: Full-Stack Mode with Python & PostgreSQL
+Set your `DATABASE_URL` and run:
 ```powershell
-npx serve .
+pip install -r requirements.txt
+python server.py
 ```
 
 ---
 
-## 🎨 Visual Fidelity & Design Breakdown
+## 📁 Repository Structure
 
-### 1. Home / Landing Page (`Figure 9.1`)
-- **Dark Theme Hero Banner (`#0F172A`):**
-  - Eyebrow: `ONLINE EXAMINATION MANAGEMENT SYSTEM` (`#38BDF8`)
-  - Headline: `Manage Your Examination Schedule with Absolute Precision`
-  - Action buttons: `Schedule an Exam` (Primary Blue `#2563EB`) & `Register Department` (Outline)
-  - `How It Works` card detailing the 4-step institutional lifecycle
-- **Live Statistics Strip:**
-  - `24` Registered Users, `18` Approved Exams, `12` Active Exam Centers
-- **Feature Grid (3×2 Responsive Matrix):**
-  - Exam Listings, Schedule Conflict Check, Approval Workflow, Public Live Schedule, Faculty Dashboard, and Secure Admin Portal
-
-### 2. Public Timetable & Faculty Dashboard (`Figure 9.2`)
-- **Interactive Timetable Filter Bar:**
-  - Real-time search by title (`e.g. DBMS Mid-Sem`)
-  - Subject filter dropdown
-  - Center / Hall filter dropdown
-  - Exam date picker (`2026-10-20`)
-  - Sort by earliest, latest, title, or department
-  - Clear Filters button
-- **Timetable Table:**
-  - Complete with badges (`Scheduled`, `Approved`, `Pending`, `Cancelled`) and click-to-view exam details modal
-- **Faculty & Administration Dashboard:**
-  - Greeting: `Welcome back, Aryan Kajne | Role: Examination Administrator (Exam Cell)`
-  - 4 KPI Stat Cards: `TOTAL EXAMS (25)`, `APPROVED (23)`, `PENDING (1)`, `CANCELLED (1)`
-  - Dual Side-by-Side Tables: `Upcoming Approved Exams` & `Recent Department Submissions`
-
-### 3. Schedule a New Examination (`Figure 9.3`)
-- **Validated Form:**
-  - Examination Title, Instructions & Syllabus Covered
-  - Academic Department & Subject dropdowns
-  - Examination Center / Computer Lab dropdown
-  - Duration, Scheduled Date, Start Time, and End Time
-- **Dynamic PostgreSQL Conflict Notice Box:**
-  - Updates dynamically in real-time as the user selects different halls, dates, or time slots.
-- **Client-Side Exclusion Constraint Simulator:**
-  - Real-time validation replicating PostgreSQL `btree_gist` exclusion constraint:
-    `EXCLUDE USING gist (center_id WITH =, daterange(exam_date, exam_date, '[]') WITH &&)`
-  - Automatically raises and displays the exact conflict error alert if overlapping hall times are booked!
-  - Successfully submitted examinations automatically update the timetable and KPI counters.
-
----
-
-## 🗄️ Database Standby Status
-
-> [!IMPORTANT]
-> **Standby Mode Active:** As requested, the website is currently decoupled and waiting for your call to connect the real database.
-> - Current data operations are managed cleanly via `StandbyDatabaseManager` in `app.js` with `localStorage` persistence.
-> - The tables `users`, `departments`, `subjects`, `exam_centers`, `exams`, and `schedules` are structured to map directly to PostgreSQL 16 schema.
-> - When you are ready to add the database, simply issue your command and we will plug in PostgreSQL and the Flask/Express API layer seamlessly!
-
+| File | Purpose |
+| :--- | :--- |
+| [`render.yaml`](./render.yaml) | Render Blueprint defining the Web Service + Cloud PostgreSQL database |
+| [`init_db.sql`](./init_db.sql) | PostgreSQL 16 DDL with `btree_gist` exclusion constraints & seed data |
+| [`server.py`](./server.py) | Python Flask backend REST API with parameterized queries and error handling |
+| [`requirements.txt`](./requirements.txt) | Python dependencies (`Flask`, `psycopg2-binary`, `gunicorn`, `python-dotenv`) |
+| [`index.html`](./index.html) | Pixel-perfect frontend UI matching Figures 9.1, 9.2, and 9.3 |
+| [`style.css`](./style.css) | Custom styling, color tokens, and responsive layout |
+| [`app.js`](./app.js) | Dual-mode frontend controller (auto-detects PostgreSQL API or local store) |
+| [`.gitignore`](./.gitignore) | Clean ignore rules for virtualenvs, caches, and temp files |
