@@ -136,3 +136,4 @@ SELECT * FROM (VALUES
     (6, 5, '2026-10-21'::DATE, '14:30'::TIME, '16:00'::TIME, 'Scheduled')
 ) AS v(eid, cid, edate, stime, etime, stat)
 WHERE NOT EXISTS (SELECT 1 FROM schedules WHERE exam_id = v.eid AND center_id = v.cid AND exam_date = v.edate);
+
