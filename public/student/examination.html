@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Assessment Room — ExamHub</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/exam.css">
+</head>
+<body class="exam-hall-body">
+
+  <!-- Sticky Examination Header -->
+  <header class="exam-header">
+    <div class="exam-title-box">
+      <h1 id="exam-title">Loading Assessment...</h1>
+      <p id="exam-meta">Institutional Examination Session</p>
+    </div>
+
+    <!-- Countdown Timer (Server Synchronized) -->
+    <div class="exam-timer-box">
+      <div class="timer-label">Time Remaining</div>
+      <div class="timer-clock" id="timer-clock">--:--</div>
+    </div>
+  </header>
+
+  <!-- Main Examination Workspace -->
+  <main class="exam-workspace">
+    
+    <!-- Question Workspace Panel -->
+    <section class="question-panel">
+      
+      <!-- Panel Header -->
+      <div class="question-panel-header">
+        <span class="question-number-badge" id="q-number-badge">Question 1</span>
+        <span class="question-marks-badge" id="q-marks-badge">+1.00 Marks</span>
+      </div>
+
+      <!-- Question Text & Options -->
+      <div class="question-panel-body">
+        <div class="question-text" id="q-text">
+          Loading question text...
+        </div>
+
+        <div class="options-list" id="options-container">
+          <!-- Dynamically populated radio options -->
+        </div>
+      </div>
+
+      <!-- Footer Navigation Controls -->
+      <div class="question-panel-footer">
+        <div class="footer-nav-buttons">
+          <button type="button" class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()" disabled>
+            ← Previous
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="clearSelection()">
+            Clear Selection
+          </button>
+          <button type="button" class="btn btn-secondary" id="btn-review" onclick="toggleReview()">
+            ☆ Mark for Review
+          </button>
+        </div>
+
+        <div>
+          <button type="button" class="btn btn-primary" id="btn-next" onclick="nextQuestion()">
+            Next Question →
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Question Palette Sidebar -->
+    <aside class="palette-sidebar">
+      <h3 class="palette-title">Question Palette</h3>
+
+      <!-- Status Legend -->
+      <div class="palette-legend">
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #10b981;"></span>
+          <span>Answered (<strong id="count-answered">0</strong>)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #f59e0b;"></span>
+          <span>Review (<strong id="count-review">0</strong>)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #e2e8f0; border: 1px solid #cbd5e1;"></span>
+          <span>Unanswered (<strong id="count-unanswered">0</strong>)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #fff; border: 2px solid #2563eb;"></span>
+          <span>Current</span>
+        </div>
+      </div>
+
+      <!-- Question Buttons Grid -->
+      <div class="palette-grid" id="palette-grid">
+        <!-- Rendered by examination.js -->
+      </div>
+
+      <!-- Final Submit Box -->
+      <div class="palette-submit-box">
+        <button type="button" class="btn btn-danger btn-block btn-lg" onclick="openSubmitModal()">
+          Submit Final Examination
+        </button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Submit Confirmation Modal -->
+  <div class="modal-overlay" id="submit-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Final Submission</h3>
+        <button type="button" class="modal-close" onclick="closeSubmitModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 1.25rem; color: #475569;">
+          Are you sure you wish to submit your assessment? Once submitted, your answers will be permanently recorded and graded.
+        </p>
+
+        <div style="background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Total Questions:</span>
+            <strong id="modal-total-q">0</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: #10b981;">
+            <span>Answered Questions:</span>
+            <strong id="modal-answered-q">0</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: #f59e0b;">
+            <span>Marked for Review:</span>
+            <strong id="modal-review-q">0</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: #ef4444;">
+            <span>Unattempted Questions:</span>
+            <strong id="modal-unattempted-q">0</strong>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeSubmitModal()">Return to Exam</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-submit" onclick="submitExamination(false)">
+          Yes, Submit Final Exam
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Completion & Scorecard Modal -->
+  <div class="modal-overlay" id="completion-modal">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-body" id="completion-modal-body">
+        <!-- Evaluated scorecard injected here by examination.js -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/examination.js"></script>
+</body>
+</html>

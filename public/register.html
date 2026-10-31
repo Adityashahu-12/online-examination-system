@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration — ExamHub</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%);
+    }
+    .auth-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+    .auth-card {
+      background-color: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      max-width: 580px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .auth-body {
+      padding: 2.25rem;
+    }
+  </style>
+</head>
+<body class="auth-page">
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-body">
+        
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <a href="/index.html" class="logo-wrapper" style="justify-content: center; margin-bottom: 1rem;">
+            <div class="logo-icon">🎓</div>
+            <div class="logo-text">
+              <h1>ExamHub</h1>
+              <span>Student Registration</span>
+            </div>
+          </a>
+          <p style="color: #64748b; font-size: 0.9rem;">Create your student account to enroll in departmental examinations.</p>
+        </div>
+
+        <div id="register-alert" class="alert alert-danger" style="display: none;"></div>
+
+        <form id="register-form">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" name="full_name" class="form-control" placeholder="e.g. Aditya Shahu" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col form-group">
+              <label class="form-label">Institutional Email *</label>
+              <input type="email" name="email" class="form-control" placeholder="student@college.ac.in" required>
+            </div>
+            <div class="form-col form-group">
+              <label class="form-label">Student ID / Roll No *</label>
+              <input type="text" name="student_id" class="form-control" placeholder="e.g. 24010024" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col form-group">
+              <label class="form-label">Academic Department *</label>
+              <select name="department_id" id="reg-department" class="form-control" required>
+                <option value="">-- Select Department --</option>
+              </select>
+            </div>
+            <div class="form-col form-group">
+              <label class="form-label">Current Semester *</label>
+              <select name="semester" class="form-control" required>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5" selected>Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+                <option value="8">Semester 8</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mobile Phone (Optional)</label>
+            <input type="tel" name="phone" class="form-control" placeholder="9876543210">
+          </div>
+
+          <div class="form-row">
+            <div class="form-col form-group">
+              <label class="form-label">Password *</label>
+              <input type="password" name="password" class="form-control" placeholder="Minimum 6 characters" required minlength="6">
+            </div>
+            <div class="form-col form-group">
+              <label class="form-label">Confirm Password *</label>
+              <input type="password" name="confirm_password" class="form-control" placeholder="Re-type password" required minlength="6">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
+            Complete Student Registration
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: #64748b;">
+          Already have an account? <a href="/login.html?role=Student" style="font-weight: 600;">Sign In Here</a>
+          <div style="margin-top: 0.5rem;"><a href="/index.html">← Back to Homepage</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/public.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFilterDropdowns();
+      const form = document.getElementById('register-form');
+      if (form) form.addEventListener('submit', handleRegister);
+    });
+  </script>
+</body>
+</html>

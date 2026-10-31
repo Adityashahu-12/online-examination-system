@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examination Timetable — ExamHub</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/index.html" class="logo-wrapper">
+        <div class="logo-icon">🎓</div>
+        <div class="logo-text">
+          <h1>ExamHub</h1>
+          <span>Academic Portal</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="/index.html" class="nav-link">Home</a></li>
+          <li><a href="/timetable.html" class="nav-link active">Examination Schedule</a></li>
+          <li><a href="/login.html?role=Student" class="nav-link">Student Portal</a></li>
+          <li><a href="/login.html?role=Admin" class="nav-link">Admin Console</a></li>
+        </ul>
+
+        <div class="auth-nav-buttons">
+          <a href="/login.html?role=Student" class="btn btn-secondary btn-sm">Sign In</a>
+          <a href="/register.html" class="btn btn-primary btn-sm">Register</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Title Banner -->
+  <div style="background: #0f172a; color: #fff; padding: 2.5rem 1.5rem; border-bottom: 1px solid #1e293b;">
+    <div class="container">
+      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.35rem;">Master Examination Timetable</h1>
+      <p style="color: #94a3b8; font-size: 0.95rem;">Official institutional schedule for all departments, degree courses, and examination centers.</p>
+    </div>
+  </div>
+
+  <!-- Timetable Content Area (Figure 9.2 Exact Match) -->
+  <main class="section-py" style="flex: 1; padding-top: 2rem;">
+    <div class="container">
+
+      <!-- Table Container Card -->
+      <div class="table-card">
+        
+        <!-- Filter Controls Bar -->
+        <div class="filter-bar">
+          <div class="search-input-group">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="filter-search" placeholder="Search by exam title, subject, or center...">
+          </div>
+
+          <select id="filter-department" class="select-control">
+            <option value="">All Departments</option>
+          </select>
+
+          <select id="filter-center" class="select-control">
+            <option value="">All Examination Centers</option>
+          </select>
+
+          <input type="date" id="filter-date" class="select-control">
+
+          <button id="filter-reset" class="btn btn-secondary btn-sm">Reset</button>
+        </div>
+
+        <!-- Table Header Info Bar -->
+        <div class="table-card-header">
+          <div style="font-weight: 600; color: #334155;">
+            Scheduled Sessions: <span id="timetable-count" style="color: #2563eb; font-weight: 700;">Loading...</span>
+          </div>
+          <div style="font-size: 0.8rem; color: #64748b;">
+            Live data synchronized with PostgreSQL database
+          </div>
+        </div>
+
+        <!-- Timetable Table -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Examination Title</th>
+                <th>Subject</th>
+                <th>Department</th>
+                <th>Center & Lab</th>
+                <th>Date</th>
+                <th>Time Slot</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="timetable-body">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 2.5rem; color: #64748b;">Loading institutional timetable...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <div>&copy; 2026 ExamHub Academic Portal. All rights reserved.</div>
+        <div>Central Examination Regulatory Authority</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/public.js"></script>
+</body>
+</html>

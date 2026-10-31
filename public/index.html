@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamHub — Online Examination Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/index.html" class="logo-wrapper">
+        <div class="logo-icon">🎓</div>
+        <div class="logo-text">
+          <h1>ExamHub</h1>
+          <span>Academic Portal</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="/index.html" class="nav-link active">Home</a></li>
+          <li><a href="/timetable.html" class="nav-link">Examination Schedule</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
+
+        <div class="auth-nav-buttons">
+          <a href="/login.html?role=Student" class="btn btn-secondary btn-sm">Student Login</a>
+          <a href="/login.html?role=Admin" class="btn btn-primary btn-sm">Admin Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section (Figure 9.1 Exact Match) -->
+  <section class="hero-section">
+    <div class="hero-container">
+      <div class="hero-badge">Institutional Examination Management</div>
+      <h1 class="hero-heading">Manage Your Examination Schedule with Absolute Precision</h1>
+      <p class="hero-description">
+        ExamHub provides a centralized examination management platform for students and academic administrators. Access examination schedules, participate in online assessments and manage examination activities through a secure portal.
+      </p>
+      <div class="hero-cta-group">
+        <a href="/timetable.html" class="btn btn-primary btn-lg">View Examination Schedule</a>
+        <a href="/login.html?role=Student" class="btn btn-outline-white btn-lg">Student Login</a>
+        <a href="/login.html?role=Admin" class="btn btn-secondary btn-lg">Admin Login</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Dynamic PostgreSQL Stats Bar -->
+  <section class="stats-section">
+    <div class="stats-container">
+      <div class="stat-item">
+        <div class="stat-number" id="stat-students">--</div>
+        <div class="stat-label">Registered Students</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="stat-exams">--</div>
+        <div class="stat-label">Registered Examinations</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="stat-schedules">--</div>
+        <div class="stat-label">Scheduled Examinations</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="stat-centers">--</div>
+        <div class="stat-label">Examination Centers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section-py" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Core Capabilities</span>
+        <h2 class="section-title">Engineered for Academic Rigor and Operational Integrity</h2>
+        <p class="section-subtitle">A unified platform integrating conflict-free scheduling, timed online testing, and automated evaluation.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">📝</div>
+          <h3>Online Examination</h3>
+          <p>Full-screen interactive test interface featuring server-synchronized countdown timers, question palette navigation, real-time autosave, and mark-for-review status tracking.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">📅</div>
+          <h3>Examination Scheduling</h3>
+          <p>Mathematical conflict prevention powered by PostgreSQL <code>btree_gist</code> exclusion constraints, ensuring zero overlapping shifts in the same lab or center.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">⚡</div>
+          <h3>Automated Evaluation</h3>
+          <p>Instant grading engine computing correct scores, negative markings, percentage calculations, and pass/fail verdicts immediately upon submission.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">📊</div>
+          <h3>Result Management</h3>
+          <p>Detailed institutional scorecards, grade transcripts, performance analytics, and administrative publication controls with complete auditability.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🔒</div>
+          <h3>Secure Authentication</h3>
+          <p>Robust bcrypt password hashing, session-based role authorization (Admin and Student), parameter sanitization, and brute-force protection.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🏛️</div>
+          <h3>Administrative Management</h3>
+          <p>Complete institutional control over departments, courses, exam centers, master examination authoring, question banks, and student assignments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section-py" id="about" style="background-color: #fff; border-top: 1px solid var(--border-color);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center;">
+        <div>
+          <span class="section-tag">About ExamHub</span>
+          <h2 class="section-title">Designed for Enterprise Academic Administration</h2>
+          <p style="color: #64748b; margin-bottom: 1.25rem; font-size: 1.05rem;">
+            ExamHub was developed to address critical scheduling challenges in higher education, eliminating room booking clashes and providing an integrated assessment lifecycle from question authoring to score publication.
+          </p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; color: #334155;">
+            <li style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="color: var(--success); font-weight: bold;">✓</span> Built with Node.js, Express, and PostgreSQL 16
+            </li>
+            <li style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="color: var(--success); font-weight: bold;">✓</span> Range exclusion constraints for conflict-free room scheduling
+            </li>
+            <li style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="color: var(--success); font-weight: bold;">✓</span> Server-side countdown enforcement preventing client-side timer tampering
+            </li>
+            <li style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="color: var(--success); font-weight: bold;">✓</span> Fully responsive across mobile, tablet, and desktop environments
+            </li>
+          </ul>
+        </div>
+        <div style="background: linear-gradient(135deg, #0f172a, #1e293b); padding: 2.5rem; border-radius: var(--radius-lg); color: #fff; box-shadow: var(--shadow-lg);">
+          <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; color: #38bdf8;">Quick Portal Access</h3>
+          <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.75rem;">Sign in to your designated academic portal or review active public schedules.</p>
+          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <a href="/login.html?role=Student" class="btn btn-primary btn-block">Sign In as Student</a>
+            <a href="/login.html?role=Admin" class="btn btn-secondary btn-block">Administrator Login</a>
+            <a href="/register.html" class="btn btn-outline-white btn-block">Register New Student Account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h2>ExamHub</h2>
+          <p>Centralized examination scheduling and digital assessment platform for academic institutions.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Portal</h3>
+          <ul>
+            <li><a href="/timetable.html">Examination Timetable</a></li>
+            <li><a href="/login.html?role=Student">Student Login</a></li>
+            <li><a href="/register.html">Student Registration</a></li>
+            <li><a href="/login.html?role=Admin">Admin Console</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="#features">Platform Features</a></li>
+            <li><a href="#about">Technical Architecture</a></li>
+            <li><a href="/api/health">System Status</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Administration</h3>
+          <ul>
+            <li>Academic Scheduling Cell</li>
+            <li>Room Allocation Authority</li>
+            <li>Autonomous Examination Board</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 ExamHub Academic Portal. All rights reserved.</div>
+        <div>Engineered with PostgreSQL & Express.js</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/public.js"></script>
+</body>
+</html>

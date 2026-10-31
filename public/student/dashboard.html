@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard — ExamHub</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-layout" id="student-dashboard-view">
+
+  <!-- Student Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <a href="/student/dashboard.html" class="sidebar-logo">
+        <div class="logo-icon">🎓</div>
+        <div class="sidebar-logo-text">
+          <h2>ExamHub</h2>
+          <span>Student Portal</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/student/dashboard.html" class="sidebar-link active">
+            <span class="icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/available-exams.html" class="sidebar-link">
+            <span class="icon">📝</span>
+            <span>Available Exams</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/results.html" class="sidebar-link">
+            <span class="icon">🏆</span>
+            <span>My Results</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/profile.html" class="sidebar-link">
+            <span class="icon">👤</span>
+            <span>Academic Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="/timetable.html" class="sidebar-link" target="_blank">
+            <span class="icon">📅</span>
+            <span>Public Timetable ↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">S</div>
+        <div class="user-details">
+          <div class="user-name student-name">Loading...</div>
+          <div class="user-role-badge student-id">UID: --</div>
+        </div>
+      </div>
+      <button class="btn-sidebar-logout btn-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="dashboard-main">
+    
+    <!-- Topbar -->
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <h1>Student Overview</h1>
+        <p>Welcome back, <strong class="student-name">Student</strong> &bull; <span class="student-dept">Department</span> (<span class="student-sem">Semester</span>)</p>
+      </div>
+
+      <div class="topbar-right">
+        <div class="institutional-badge">
+          <span class="dot"></span> Academic Year 2026-27
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="dashboard-content">
+
+      <!-- Metrics Summary -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-info">
+            <h4>Assigned Examinations</h4>
+            <div class="metric-value" id="metric-assigned">--</div>
+          </div>
+          <div class="metric-icon-box icon-blue">📝</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-info">
+            <h4>Completed Exams</h4>
+            <div class="metric-value" id="metric-completed">--</div>
+          </div>
+          <div class="metric-icon-box icon-green">✓</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-info">
+            <h4>Passed Assessments</h4>
+            <div class="metric-value" id="metric-passed">--</div>
+          </div>
+          <div class="metric-icon-box icon-purple">🏆</div>
+        </div>
+      </div>
+
+      <!-- Active / Assigned Examinations Table -->
+      <div class="table-card" style="margin-bottom: 2rem;">
+        <div class="table-card-header">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a;">Assigned Examinations</h3>
+            <p style="font-size: 0.8rem; color: #64748b;">Examinations active for your department and semester.</p>
+          </div>
+          <a href="/student/available-exams.html" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Examination Title</th>
+                <th>Subject</th>
+                <th>Duration</th>
+                <th>Max Marks</th>
+                <th>Attempt Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="student-exams-body">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 2rem; color: #64748b;">Loading your assigned examinations...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Upcoming Scheduled Sessions Table -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a;">Upcoming Examination Shifts</h3>
+            <p style="font-size: 0.8rem; color: #64748b;">Allocated center, lab, and time slots for your courses.</p>
+          </div>
+          <a href="/timetable.html" class="btn btn-secondary btn-sm" target="_blank">Full Schedule ↗</a>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Examination</th>
+                <th>Center & Lab</th>
+                <th>Date</th>
+                <th>Time Window</th>
+                <th>Schedule Status</th>
+              </tr>
+            </thead>
+            <tbody id="student-upcoming-body">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 2rem; color: #64748b;">Loading upcoming examination shifts...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/student.js"></script>
+</body>
+</html>

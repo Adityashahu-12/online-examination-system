@@ -1,78 +1,103 @@
 # ExamHub — Online Examination Management System
 
-An institutional web platform designed and built with **pure HTML5, CSS3, and JavaScript**, paired with a **Python Flask backend** and **Render Blueprint with Cloud PostgreSQL 16**.
+An enterprise institutional examination platform built with **pure HTML5, CSS3, and Vanilla JavaScript**, paired with a **Node.js & Express.js backend** and **PostgreSQL 16** with `btree_gist` range exclusion constraints.
 
-- **Figure 9.1:** ExamHub Home & Portal Landing Page
-- **Figure 9.2:** Public Examination Timetable & Faculty Dashboard
-- **Figure 9.3:** Schedule a New Examination Web Interface with Exclusion Constraints
-- **Figure 9.4:** PostgreSQL 16 `psql` & Flask Backend Application
+---
+
+## 🏛️ System Features & Architectural Highlights
+
+1. **Conflict-Free Examination Scheduling:**
+   - Powered by PostgreSQL `btree_gist` exclusion constraint on `tsrange(start_timestamp, end_timestamp, '[)')`.
+   - Permits multiple non-overlapping examination shifts in the same lab/center on the same date.
+   - Mathematically blocks overlapping shifts in the same center, throwing error code `23P01`.
+2. **Server-Synchronized Examination Room:**
+   - Active countdown timer computed independently on the server (`remaining = duration - (current_time - start_time)`), surviving page reloads.
+   - Question Palette tracking Answered (Green), Marked for Review (Orange), Unanswered (Grey), and Current Question (Blue).
+   - Real-time autosave of student answers (`student_answers` table) on radio selection.
+   - Confirmation submit modal with summary metrics and automated grading.
+3. **Role-Based Authentication:**
+   - Secure Bcrypt password hashing (`bcryptjs`).
+   - Session-based authentication via HTTP-only cookies (`express-session`).
+   - Student registration with duplicate email and Roll Number prevention.
+   - Autonomous Admin Console restricted to administrators.
+4. **Institutional Analytics & Reports:**
+   - Busiest Examination Centers ranked by allocated shifts.
+   - Department-wise student breakdown.
+   - Official scorecards, percentage calculations, and publication controls.
+
+---
+
+## 🔑 Demo Institutional Accounts
+
+| Role | Name | Email / Roll Number | Password | Portal URL |
+| :--- | :--- | :--- | :--- | :--- |
+| **Administrator** | Aryan Kajne | `admin@examhub.local` | `Admin@123` | `/login.html?role=Admin` |
+| **Student** | Aditya Shahu | `student@examhub.local` or UID: `24010024` | `Student@123` | `/login.html?role=Student` |
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend:** Pure HTML5, CSS3, Vanilla JavaScript (No React, Angular, Vue, Bootstrap, or Tailwind).
+- **Backend:** Node.js, Express.js.
+- **Database:** PostgreSQL 16 with `pg` connection pooling and `btree_gist` extension.
+- **Security:** `bcryptjs`, `express-session`, parameterized SQL queries.
+- **Deployment:** Render Blueprint (`render.yaml`).
+
+---
+
+## 🚀 Local Development Setup
+
+### 1. Install Dependencies
+```bash
+npm install
+```
+
+### 2. Configure Environment (`.env`)
+```env
+PORT=3000
+NODE_ENV=development
+DATABASE_URL=postgresql://postgres:password@localhost:5432/online_examination_system_portal
+SESSION_SECRET=examhub_super_secret_session_key_production_2026
+ADMIN_EMAIL=admin@examhub.local
+ADMIN_PASSWORD=Admin@123
+```
+
+### 3. Initialize Database & Seeds
+```bash
+npm run init-db
+npm run seed
+```
+
+### 4. Run Automated Test Suite
+```bash
+npm test
+```
+*Executes all 14 unit and integration tests including exclusion conflict rejection, bcrypt verification, and grading engine.*
+
+### 5. Start Server
+```bash
+npm start
+```
+Visit `http://localhost:3000` in your browser.
 
 ---
 
 ## ☁️ Deploying to Render via Blueprint (`render.yaml`)
 
-This repository is fully configured for **Infrastructure-as-Code (IaC)** deployment on Render using the included `render.yaml`.
+This repository is configured for one-click deployment using Render's Infrastructure-as-Code Blueprint.
 
-### Step 1: Push Code to GitHub
-
-1. Create a new empty repository on [GitHub](https://github.com/new), for example named: `online-examination-system`.
-2. In your terminal (PowerShell), link and push this repo:
-```powershell
-# Set your remote URL (replace <your-github-username> with your GitHub username)
-git remote add origin https://github.com/<your-github-username>/online-examination-system.git
-
-# Rename branch to main if needed & push
-git branch -M main
-git push -u origin main
-```
-
----
-
-### Step 2: One-Click Deploy on Render
-
-1. Log into your [Render Dashboard](https://dashboard.render.com/).
-2. Click **New +** at the top right and select **Blueprint**.
-3. Connect your GitHub account and choose the `online-examination-system` repository.
-4. Render will automatically parse [`render.yaml`](./render.yaml) and discover:
-   - **Database:** `examhub-postgres` (PostgreSQL 16, free tier, region: Oregon).
-   - **Web Service:** `examhub-online-exam-system` (Python 3.11 with Gunicorn).
-   - **Environment Variable:** Automatic injection of `DATABASE_URL` linking the web service to the database.
-5. Click **Apply**. Render will:
-   1. Spin up the cloud PostgreSQL instance.
-   2. Build the Python web service with `pip install -r requirements.txt`.
-   3. Launch `gunicorn server:app`.
-   4. Execute [`init_db.sql`](./init_db.sql) to activate `btree_gist`, create all 6 tables, and seed default records.
-   5. Give you a public live URL: `https://examhub-online-exam-system.onrender.com`.
-
----
-
-## 🚀 Local Execution (Two Modes)
-
-### Mode A: Standalone Static Mode (Pure HTML/CSS/JS)
-Double-click [`index.html`](./index.html) or run:
-```powershell
-python -m http.server 5000
-```
-Then visit [http://localhost:5000](http://localhost:5000). The frontend runs in client-side simulated mode with `localStorage` persistence.
-
-### Mode B: Full-Stack Mode with Python & PostgreSQL
-Set your `DATABASE_URL` and run:
-```powershell
-pip install -r requirements.txt
-python server.py
-```
-
----
-
-## 📁 Repository Structure
-
-| File | Purpose |
-| :--- | :--- |
-| [`render.yaml`](./render.yaml) | Render Blueprint defining the Web Service + Cloud PostgreSQL database |
-| [`init_db.sql`](./init_db.sql) | PostgreSQL 16 DDL with `btree_gist` exclusion constraints & seed data |
-| [`server.py`](./server.py) | Python Flask backend REST API with parameterized queries and error handling |
-| [`requirements.txt`](./requirements.txt) | Python dependencies (`Flask`, `psycopg2-binary`, `gunicorn`, `python-dotenv`) |
-| [`index.html`](./index.html) | Pixel-perfect frontend UI matching Figures 9.1, 9.2, and 9.3 |
-| [`style.css`](./style.css) | Custom styling, color tokens, and responsive layout |
-| [`app.js`](./app.js) | Dual-mode frontend controller (auto-detects PostgreSQL API or local store) |
-| [`.gitignore`](./.gitignore) | Clean ignore rules for virtualenvs, caches, and temp files |
+1. Push your repository to GitHub:
+   ```bash
+   git add .
+   git commit -m "ExamHub: Complete Node.js + PostgreSQL institutional system"
+   git push -u origin main
+   ```
+2. Log in to [Render Dashboard](https://dashboard.render.com/).
+3. Click **New +** and select **Blueprint**.
+4. Connect your GitHub repository.
+5. Render will detect [`render.yaml`](./render.yaml) and automatically provision:
+   - **Database:** `examhub-postgres` (PostgreSQL 16, free tier).
+   - **Web Service:** `examhub-online-exam-system` (Node.js runtime).
+   - Injected environment variables: `DATABASE_URL`, `NODE_ENV=production`, `SESSION_SECRET`.
+6. Click **Apply**. On startup, the server automatically initializes tables, constraints, and initial institutional data.

@@ -1,0 +1,30 @@
+{
+  "name": "examhub-online-examination-system",
+  "version": "2.0.0",
+  "description": "Enterprise Online Examination Management System with PostgreSQL exclusion constraint scheduling",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "init-db": "node database/migrate.js",
+    "seed": "node database/seed.js",
+    "test": "node tests/run-tests.js"
+  },
+  "keywords": [
+    "examination",
+    "postgresql",
+    "express",
+    "online-exam",
+    "btree_gist"
+  ],
+  "author": "Aditya Shahu",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "pg": "^8.12.0"
+  }
+}

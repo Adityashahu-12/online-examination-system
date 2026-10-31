@@ -1,0 +1,298 @@
+/* ==========================================================================
+   ExamHub - Online Examination Hall Styles
+   ========================================================================== */
+
+.exam-hall-body {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Exam Sticky Header */
+.exam-header {
+  background-color: #0f172a;
+  color: #fff;
+  padding: 0.85rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow-md);
+}
+
+.exam-title-box h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.exam-title-box p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* Countdown Timer */
+.exam-timer-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-md);
+}
+
+.timer-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timer-clock {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.05em;
+}
+
+.timer-clock.warning {
+  color: #fbbf24;
+}
+
+.timer-clock.danger {
+  color: #f87171;
+  animation: pulse-danger 1s infinite alternate;
+}
+
+@keyframes pulse-danger {
+  from { opacity: 1; }
+  to { opacity: 0.4; }
+}
+
+/* Examination Layout */
+.exam-workspace {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  flex: 1;
+  width: 100%;
+}
+
+/* Question Section */
+.question-panel {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.question-panel-header {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.question-number-badge {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy-hero);
+}
+
+.question-marks-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #15803d;
+  background-color: #dcfce7;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.question-panel-body {
+  padding: 2rem 1.75rem;
+  flex: 1;
+}
+
+.question-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--navy-hero);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background-color: #fff;
+}
+
+.option-item:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.option-item.selected {
+  background-color: #eff6ff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px #2563eb;
+}
+
+.option-item input[type="radio"] {
+  margin-right: 1rem;
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+}
+
+.option-label {
+  font-size: 1rem;
+  color: var(--text-main);
+  flex: 1;
+}
+
+.question-panel-footer {
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid var(--border-color);
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Question Palette Sidebar */
+.palette-sidebar {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.palette-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy-hero);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.palette-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.65rem;
+  overflow-y: auto;
+  max-height: 380px;
+  padding-right: 0.25rem;
+}
+
+.palette-btn {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: #f1f5f9;
+  color: #475569;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.palette-btn:hover {
+  border-color: #94a3b8;
+}
+
+/* Palette Status Colors */
+.palette-btn.current {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.palette-btn.answered {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #059669;
+}
+
+.palette-btn.review {
+  background-color: #f59e0b;
+  color: #ffffff;
+  border-color: #d97706;
+}
+
+.palette-btn.unanswered {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.palette-submit-box {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 992px) {
+  .exam-workspace {
+    grid-template-columns: 1fr;
+  }
+}

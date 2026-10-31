@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Examinations — ExamHub</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-layout" id="available-exams-view">
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <a href="/student/dashboard.html" class="sidebar-logo">
+        <div class="logo-icon">🎓</div>
+        <div class="sidebar-logo-text">
+          <h2>ExamHub</h2>
+          <span>Student Portal</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/student/dashboard.html" class="sidebar-link">
+            <span class="icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/available-exams.html" class="sidebar-link active">
+            <span class="icon">📝</span>
+            <span>Available Exams</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/results.html" class="sidebar-link">
+            <span class="icon">🏆</span>
+            <span>My Results</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/profile.html" class="sidebar-link">
+            <span class="icon">👤</span>
+            <span>Academic Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="/timetable.html" class="sidebar-link" target="_blank">
+            <span class="icon">📅</span>
+            <span>Public Timetable ↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">S</div>
+        <div class="user-details">
+          <div class="user-name student-name">Loading...</div>
+          <div class="user-role-badge student-id">UID: --</div>
+        </div>
+      </div>
+      <button class="btn-sidebar-logout btn-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <h1>Available Examinations</h1>
+        <p>Active and scheduled assessments available for your academic profile</p>
+      </div>
+
+      <div class="topbar-right">
+        <div class="institutional-badge">
+          <span class="dot"></span> Online Testing Active
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      
+      <!-- Notice Alert -->
+      <div class="alert alert-info">
+        <span>ℹ️</span>
+        <div>
+          <strong>Examination Instructions:</strong> Ensure you have a stable network connection before starting an assessment. Once an exam commences, the server-synchronized countdown timer cannot be paused.
+        </div>
+      </div>
+
+      <!-- Container dynamically populated by student.js -->
+      <div id="available-exams-list">
+        <div style="text-align: center; padding: 3rem; color: #64748b;">Loading available examinations...</div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/student.js"></script>
+</body>
+</html>

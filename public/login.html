@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — ExamHub Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%);
+    }
+    .auth-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+    .auth-card {
+      background-color: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      max-width: 460px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background-color: #f8fafc;
+      border: none;
+      transition: all 0.15s ease;
+    }
+    .auth-tab.active {
+      color: var(--primary);
+      background-color: #fff;
+      border-bottom: 2px solid var(--primary);
+    }
+    .auth-body {
+      padding: 2rem;
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+    .auth-header h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--navy-hero);
+    }
+    .auth-header p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+    .demo-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      color: #1e40af;
+    }
+    .demo-box strong {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+  </style>
+</head>
+<body class="auth-page">
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      
+      <!-- Role Switcher Tabs -->
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="tab-student" onclick="switchTab('Student')">
+          Student Portal
+        </button>
+        <button type="button" class="auth-tab" id="tab-admin" onclick="switchTab('Admin')">
+          Administrator
+        </button>
+      </div>
+
+      <div class="auth-body">
+        <div class="auth-header">
+          <h2 id="login-title">Student Sign In</h2>
+          <p id="login-desc">Enter your Student ID (Roll No) or Email to access your exams.</p>
+        </div>
+
+        <div id="login-alert" class="alert alert-danger" style="display: none;"></div>
+
+        <form id="login-form">
+          <input type="hidden" name="role_hint" id="role_hint" value="Student">
+
+          <div class="form-group">
+            <label class="form-label" id="label-identifier">Email Address or Student ID</label>
+            <input type="text" name="identifier" class="form-control" placeholder="e.g. 24010024 or student@examhub.local" required autofocus>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <label class="form-label" style="margin-bottom: 0;">Password</label>
+              <button type="button" style="background:none; border:none; color: #2563eb; font-size: 0.8rem; cursor: pointer;" onclick="togglePasswordVisibility('login-password')">Show / Hide</button>
+            </div>
+            <input type="password" id="login-password" name="password" class="form-control" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1.5rem;">
+            Sign In to Portal
+          </button>
+        </form>
+
+        <!-- Institutional Demo Credentials Reference -->
+        <div class="demo-box" id="demo-credentials">
+          <strong>Institutional Demo Credentials:</strong>
+          <div id="demo-student-info">
+            Student: <code>student@examhub.local</code> or UID: <code>24010024</code> / Password: <code>Student@123</code>
+          </div>
+          <div id="demo-admin-info" style="display: none;">
+            Admin: <code>admin@examhub.local</code> / Password: <code>Admin@123</code>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: #64748b;">
+          <span id="register-link-text">Need an account? <a href="/register.html" style="font-weight: 600;">Register as Student</a></span>
+          <div style="margin-top: 0.5rem;"><a href="/index.html">← Back to Homepage</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script>
+    function switchTab(role) {
+      const tabStudent = document.getElementById('tab-student');
+      const tabAdmin = document.getElementById('tab-admin');
+      const title = document.getElementById('login-title');
+      const desc = document.getElementById('login-desc');
+      const roleHint = document.getElementById('role_hint');
+      const regLink = document.getElementById('register-link-text');
+      const demoStudent = document.getElementById('demo-student-info');
+      const demoAdmin = document.getElementById('demo-admin-info');
+
+      if (role === 'Admin') {
+        tabAdmin.classList.add('active');
+        tabStudent.classList.remove('active');
+        title.textContent = 'Administrator Login';
+        desc.textContent = 'Sign in with your administrative credentials to manage schedules and exams.';
+        roleHint.value = 'Admin';
+        regLink.style.display = 'none';
+        demoStudent.style.display = 'none';
+        demoAdmin.style.display = 'block';
+      } else {
+        tabStudent.classList.add('active');
+        tabAdmin.classList.remove('active');
+        title.textContent = 'Student Sign In';
+        desc.textContent = 'Enter your Student ID (Roll No) or Email to access your exams.';
+        roleHint.value = 'Student';
+        regLink.style.display = 'inline';
+        demoStudent.style.display = 'block';
+        demoAdmin.style.display = 'none';
+      }
+    }
+
+    function togglePasswordVisibility(fieldId) {
+      const field = document.getElementById(fieldId);
+      field.type = (field.type === 'password') ? 'text' : 'password';
+    }
+
+    // Check query params for default tab (e.g. ?role=Admin)
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('role') === 'Admin') {
+        switchTab('Admin');
+      }
+
+      const form = document.getElementById('login-form');
+      if (form) form.addEventListener('submit', handleLogin);
+    });
+  </script>
+</body>
+</html>

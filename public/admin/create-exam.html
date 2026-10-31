@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Master Examination — ExamHub Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-layout" id="admin-create-exam-view">
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <a href="/admin/dashboard.html" class="sidebar-logo">
+        <div class="logo-icon">🏛️</div>
+        <div class="sidebar-logo-text">
+          <h2>ExamHub</h2>
+          <span>Admin Console</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="sidebar-section-title">Operations</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/dashboard.html" class="sidebar-link">
+            <span class="icon">📈</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/schedules.html" class="sidebar-link">
+            <span class="icon">📅</span>
+            <span>Schedules & Shifts</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/examinations.html" class="sidebar-link">
+            <span class="icon">📋</span>
+            <span>Master Exams</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/create-exam.html" class="sidebar-link active">
+            <span class="icon">➕</span>
+            <span>Create Exam</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/questions.html" class="sidebar-link">
+            <span class="icon">❓</span>
+            <span>Question Bank</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-section-title">Academic Records</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/students.html" class="sidebar-link">
+            <span class="icon">👥</span>
+            <span>Students Roster</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/results.html" class="sidebar-link">
+            <span class="icon">🏆</span>
+            <span>Results & Grading</span>
+          </a>
+        </li>
+        <li>
+          <a href="/timetable.html" class="sidebar-link" target="_blank">
+            <span class="icon">🔍</span>
+            <span>Public Timetable ↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar" style="background-color: #0284c7;">A</div>
+        <div class="user-details">
+          <div class="user-name admin-name">Aryan Kajne</div>
+          <div class="user-role-badge">Super Admin</div>
+        </div>
+      </div>
+      <button class="btn-sidebar-logout btn-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <h1>Author Master Examination</h1>
+        <p>Define new course assessments and assessment parameters</p>
+      </div>
+
+      <div class="topbar-right">
+        <a href="/admin/examinations.html" class="btn btn-secondary btn-sm">← Back to Exams</a>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="table-card" style="max-width: 800px; margin: 0 auto; padding: 2.25rem;">
+        <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">
+          Examination Specification
+        </h2>
+        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 2rem;">
+          Configure test details. You can add questions and options immediately after saving.
+        </p>
+
+        <form id="create-exam-form">
+          <div class="form-group">
+            <label class="form-label">Examination Title *</label>
+            <input type="text" name="title" class="form-control" placeholder="e.g. Database Management Systems Mid-Term Examination" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Syllabus / Scope Description</label>
+            <textarea name="description" class="form-control" rows="3" placeholder="Modules covered, exam instructions..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col form-group">
+              <label class="form-label">Department *</label>
+              <select name="department_id" id="exam-department" class="form-control" required>
+                <option value="">Loading departments...</option>
+              </select>
+            </div>
+            <div class="form-col form-group">
+              <label class="form-label">Subject *</label>
+              <select name="subject_id" id="exam-subject" class="form-control" required>
+                <option value="">Loading subjects...</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col form-group">
+              <label class="form-label">Semester *</label>
+              <select name="semester" class="form-control" required>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5" selected>Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+                <option value="8">Semester 8</option>
+              </select>
+            </div>
+            <div class="form-col form-group">
+              <label class="form-label">Duration (Minutes) *</label>
+              <input type="number" name="duration_minutes" class="form-control" value="60" min="5" max="300" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col form-group">
+              <label class="form-label">Total Marks *</label>
+              <input type="number" name="total_marks" class="form-control" value="100.00" step="0.5" required>
+            </div>
+            <div class="form-col form-group">
+              <label class="form-label">Passing Marks *</label>
+              <input type="number" name="passing_marks" class="form-control" value="40.00" step="0.5" required>
+            </div>
+            <div class="form-col form-group">
+              <label class="form-label">Negative Marking (Per Wrong Answer)</label>
+              <input type="number" name="negative_marking" class="form-control" value="0.00" step="0.25" min="0">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Initial Publication Status</label>
+            <select name="status" class="form-control">
+              <option value="Draft" selected>Draft (Save for review & add questions)</option>
+              <option value="Published">Published (Enrolls all department students immediately)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1.5rem;">
+            Save & Continue to Question Authoring
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

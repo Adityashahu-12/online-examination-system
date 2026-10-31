@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule Examination — ExamHub Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-layout" id="admin-schedules-view">
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <a href="/admin/dashboard.html" class="sidebar-logo">
+        <div class="logo-icon">🏛️</div>
+        <div class="sidebar-logo-text">
+          <h2>ExamHub</h2>
+          <span>Admin Console</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="sidebar-section-title">Operations</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/dashboard.html" class="sidebar-link">
+            <span class="icon">📈</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/schedules.html" class="sidebar-link active">
+            <span class="icon">📅</span>
+            <span>Schedules & Shifts</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/examinations.html" class="sidebar-link">
+            <span class="icon">📋</span>
+            <span>Master Exams</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/create-exam.html" class="sidebar-link">
+            <span class="icon">➕</span>
+            <span>Create Exam</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/questions.html" class="sidebar-link">
+            <span class="icon">❓</span>
+            <span>Question Bank</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-section-title">Academic Records</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/students.html" class="sidebar-link">
+            <span class="icon">👥</span>
+            <span>Students Roster</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/results.html" class="sidebar-link">
+            <span class="icon">🏆</span>
+            <span>Results & Grading</span>
+          </a>
+        </li>
+        <li>
+          <a href="/timetable.html" class="sidebar-link" target="_blank">
+            <span class="icon">🔍</span>
+            <span>Public Timetable ↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar" style="background-color: #0284c7;">A</div>
+        <div class="user-details">
+          <div class="user-name admin-name">Aryan Kajne</div>
+          <div class="user-role-badge">Super Admin</div>
+        </div>
+      </div>
+      <button class="btn-sidebar-logout btn-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <h1>Examination Scheduling Management</h1>
+        <p>PostgreSQL <code>btree_gist</code> Exclusion Constraint Enforced Scheduling Engine</p>
+      </div>
+
+      <div class="topbar-right">
+        <div class="institutional-badge">
+          <span class="dot"></span> Collision Prevention Active
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      
+      <!-- Scheduling Form Card (Figure 9.3 Exact Reproduction) -->
+      <div class="schedule-form-container">
+        
+        <div class="table-card" style="padding: 2.25rem; margin-bottom: 2.5rem;">
+          <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">
+            Schedule a New Examination
+          </h2>
+          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">
+            Assign an examination to an approved institutional center, date, and time slot.
+          </p>
+
+          <!-- Important Notice Banner (From Figure 9.3) -->
+          <div class="schedule-notice-banner">
+            <strong>Important Notice:</strong> Examinations scheduled in the same center must have non-overlapping time slots. The system will automatically validate room availability and reject conflicting schedules.
+          </div>
+
+          <!-- Real-Time Conflict Error Banner (Triggered by PostgreSQL Exclusion Constraint) -->
+          <div id="schedule-conflict-banner" class="schedule-conflict-banner"></div>
+
+          <!-- Success Alert -->
+          <div id="schedule-success-banner" class="alert alert-success" style="display: none;"></div>
+
+          <form id="create-schedule-form">
+            <div class="form-group">
+              <label class="form-label">Examination *</label>
+              <select name="exam_id" id="schedule-exam" class="form-control" required>
+                <option value="">Loading master examinations...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Examination Center & Lab *</label>
+              <select name="center_id" id="schedule-center" class="form-control" required>
+                <option value="">Loading examination centers...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Examination Date *</label>
+              <input type="date" name="exam_date" id="schedule-date" class="form-control" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col form-group">
+                <label class="form-label">Start Time *</label>
+                <input type="time" name="start_time" id="schedule-start-time" class="form-control" required>
+              </div>
+              <div class="form-col form-group">
+                <label class="form-label">End Time *</label>
+                <input type="time" name="end_time" id="schedule-end-time" class="form-control" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
+              Schedule Examination
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Active Schedules Roster -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a;">Allocated Examination Sessions</h3>
+            <p style="font-size: 0.8rem; color: #64748b;">All past and upcoming scheduled shifts across campus centers</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadSchedulesList()">Refresh Schedule</button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Examination Title</th>
+                <th>Subject</th>
+                <th>Allocated Center</th>
+                <th>Date</th>
+                <th>Time Window</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="schedules-table-body">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 2rem; color: #64748b;">Loading allocated schedules...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

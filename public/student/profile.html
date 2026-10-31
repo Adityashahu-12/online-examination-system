@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Academic Profile — ExamHub</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-layout" id="student-profile-view">
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <a href="/student/dashboard.html" class="sidebar-logo">
+        <div class="logo-icon">🎓</div>
+        <div class="sidebar-logo-text">
+          <h2>ExamHub</h2>
+          <span>Student Portal</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/student/dashboard.html" class="sidebar-link">
+            <span class="icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/available-exams.html" class="sidebar-link">
+            <span class="icon">📝</span>
+            <span>Available Exams</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/results.html" class="sidebar-link">
+            <span class="icon">🏆</span>
+            <span>My Results</span>
+          </a>
+        </li>
+        <li>
+          <a href="/student/profile.html" class="sidebar-link active">
+            <span class="icon">👤</span>
+            <span>Academic Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="/timetable.html" class="sidebar-link" target="_blank">
+            <span class="icon">📅</span>
+            <span>Public Timetable ↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">S</div>
+        <div class="user-details">
+          <div class="user-name student-name">Loading...</div>
+          <div class="user-role-badge student-id">UID: --</div>
+        </div>
+      </div>
+      <button class="btn-sidebar-logout btn-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <h1>Academic Profile</h1>
+        <p>Institutional record and student enrollment information</p>
+      </div>
+
+      <div class="topbar-right">
+        <div class="institutional-badge">
+          <span class="dot"></span> Enrolled & Active
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="table-card" style="max-width: 800px; margin: 0 auto; padding: 2.25rem;">
+        
+        <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+          <div style="width: 72px; height: 72px; border-radius: 9999px; background: #2563eb; color: #fff; font-size: 2rem; font-weight: 800; display: flex; align-items: center; justify-content: center;">
+            S
+          </div>
+          <div>
+            <h2 id="prof-name" style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Loading...</h2>
+            <div style="color: #64748b; font-size: 0.9rem;" id="prof-email">student@college.ac.in</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div style="background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem;">Student ID / Roll No</div>
+            <div style="font-size: 1.15rem; font-weight: 700; color: #0f172a;" id="prof-roll">--</div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem;">Current Semester</div>
+            <div style="font-size: 1.15rem; font-weight: 700; color: #0f172a;" id="prof-sem">--</div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem;">Department</div>
+            <div style="font-size: 1.05rem; font-weight: 700; color: #0f172a;" id="prof-dept">--</div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem;">Academic Year</div>
+            <div style="font-size: 1.15rem; font-weight: 700; color: #0f172a;" id="prof-year">--</div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem;">Contact Phone</div>
+            <div style="font-size: 1.05rem; font-weight: 700; color: #0f172a;" id="prof-phone">--</div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem;">Registration Date</div>
+            <div style="font-size: 1.05rem; font-weight: 700; color: #0f172a;" id="prof-member">2026-10-20</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/student.js"></script>
+</body>
+</html>

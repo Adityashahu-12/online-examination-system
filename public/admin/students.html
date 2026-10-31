@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Students Roster — ExamHub Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-layout" id="admin-students-view">
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <a href="/admin/dashboard.html" class="sidebar-logo">
+        <div class="logo-icon">🏛️</div>
+        <div class="sidebar-logo-text">
+          <h2>ExamHub</h2>
+          <span>Admin Console</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="sidebar-section-title">Operations</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/dashboard.html" class="sidebar-link">
+            <span class="icon">📈</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/schedules.html" class="sidebar-link">
+            <span class="icon">📅</span>
+            <span>Schedules & Shifts</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/examinations.html" class="sidebar-link">
+            <span class="icon">📋</span>
+            <span>Master Exams</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/create-exam.html" class="sidebar-link">
+            <span class="icon">➕</span>
+            <span>Create Exam</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/questions.html" class="sidebar-link">
+            <span class="icon">❓</span>
+            <span>Question Bank</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-section-title">Academic Records</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/students.html" class="sidebar-link active">
+            <span class="icon">👥</span>
+            <span>Students Roster</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/results.html" class="sidebar-link">
+            <span class="icon">🏆</span>
+            <span>Results & Grading</span>
+          </a>
+        </li>
+        <li>
+          <a href="/timetable.html" class="sidebar-link" target="_blank">
+            <span class="icon">🔍</span>
+            <span>Public Timetable ↗</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar" style="background-color: #0284c7;">A</div>
+        <div class="user-details">
+          <div class="user-name admin-name">Aryan Kajne</div>
+          <div class="user-role-badge">Super Admin</div>
+        </div>
+      </div>
+      <button class="btn-sidebar-logout btn-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <h1>Registered Students Directory</h1>
+        <p>Manage student academic profiles, departmental enrollments, and examination assignments</p>
+      </div>
+
+      <div class="topbar-right">
+        <div class="institutional-badge">
+          <span class="dot"></span> Institutional Roster
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="table-card">
+        <div class="table-card-header">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a;">Student Records</h3>
+            <p style="font-size: 0.8rem; color: #64748b;">Profiles registered and synchronized via PostgreSQL</p>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Student Full Name & Email</th>
+                <th>Roll Number / UID</th>
+                <th>Department</th>
+                <th>Semester</th>
+                <th>Assessment Performance</th>
+                <th>Registration Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-students-table-body">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 2rem; color: #64748b;">Loading students roster...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Assign Exam Modal -->
+  <div class="modal-overlay" id="assign-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Assign Examination</h3>
+        <button type="button" class="modal-close" onclick="closeAssignModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 1.25rem; color: #475569;">
+          Enroll <strong id="assign-student-name">Student</strong> into an institutional examination:
+        </p>
+
+        <form id="assign-exam-form">
+          <input type="hidden" id="assign-student-id">
+          
+          <div class="form-group">
+            <label class="form-label">Select Master Examination *</label>
+            <select id="assign-exam-select" class="form-control" required>
+              <option value="">Loading master examinations...</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <button type="button" class="btn btn-secondary" onclick="closeAssignModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Confirm Enrollment</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    async function openAssignModal(userId, name) {
+      document.getElementById('assign-student-id').value = userId;
+      document.getElementById('assign-student-name').textContent = name;
+
+      const examSelect = document.getElementById('assign-exam-select');
+      try {
+        const res = await fetch('/api/exams');
+        const data = await res.json();
+        if (data.success && data.exams) {
+          examSelect.innerHTML = '<option value="">-- Choose Examination --</option>' +
+            data.exams.map(e => `<option value="${e.exam_id}">${e.title} (${e.duration_minutes} Mins - ${e.status})</option>`).join('');
+        }
+      } catch (err) {}
+
+      document.getElementById('assign-modal').classList.add('active');
+    }
+
+    function closeAssignModal() {
+      document.getElementById('assign-modal').classList.remove('active');
+    }
+
+    document.getElementById('assign-exam-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const studentId = document.getElementById('assign-student-id').value;
+      const examId = document.getElementById('assign-exam-select').value;
+
+      try {
+        const res = await fetch('/api/admin/assign-exam', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ exam_id: examId, student_id: studentId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Examination assigned successfully!');
+          closeAssignModal();
+          loadAdminStudentsView();
+        } else {
+          alert(data.error || 'Failed to assign exam.');
+        }
+      } catch (err) {
+        alert('Error assigning exam.');
+      }
+    });
+  </script>
+</body>
+</html>
