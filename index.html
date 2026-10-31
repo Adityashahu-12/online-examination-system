@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamHub | Online Examination Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       STANDBY DATABASE NOTICE (Awaiting Database Integration Call)
+       ========================================================================= -->
+  <aside class="db-standby-banner" id="db-standby-banner">
+    <div class="banner-left">
+      <span class="standby-pill">Database: Standby Mode</span>
+      <span>Frontend initialized with pure HTML/CSS/JS. Awaiting your call to connect PostgreSQL & Flask backend.</span>
+    </div>
+    <div class="banner-right">
+      <button type="button" onclick="UI.openModal('modal-db-standby-info')">Database Schema & Architecture ℹ️</button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       BROWSER CHROME BAR (Exact Simulation of Figures 9.1, 9.2, 9.3)
+       ========================================================================= -->
+  <header class="browser-chrome">
+    <div class="chrome-dots">
+      <span class="chrome-dot dot-red"></span>
+      <span class="chrome-dot dot-yellow"></span>
+      <span class="chrome-dot dot-green"></span>
+    </div>
+    <div class="chrome-address-bar">
+      <span>🔒</span>
+      <span id="browser-address-text">http://localhost:5000/ - ExamHub | Online Examination System</span>
+    </div>
+    <div class="view-tabs-quick">
+      <button class="view-tab-btn active" data-tab-view="home">Figure 9.1 (Home)</button>
+      <button class="view-tab-btn" data-tab-view="schedules">Figure 9.2 (Schedule & Dashboard)</button>
+      <button class="view-tab-btn" data-tab-view="create-exam">Figure 9.3 (Create Exam)</button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       APP TOP NAVBAR (Figure 9.1 & 9.2 Design)
+       ========================================================================= -->
+  <nav class="app-navbar">
+    <a href="#home" class="nav-brand" data-view-target="home">
+      <div class="brand-badge">EH</div>
+      <div class="brand-info">
+        <span class="brand-title">ExamHub</span>
+        <span class="brand-subtitle">Online Examination Management</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" id="main-nav-links">
+      <li><a href="#home" class="nav-link active" data-view-target="home">Home</a></li>
+      <li><a href="#schedules" class="nav-link" data-view-target="schedules">Available Exams</a></li>
+      <li><a href="#schedules" class="nav-link" data-view-target="schedules" data-scroll-target="dashboard-section">Dashboard</a></li>
+      <li><a href="#create-exam" class="nav-link" data-view-target="create-exam">Schedule Exam</a></li>
+    </ul>
+
+    <div class="nav-right-actions" id="nav-right-actions">
+      <div class="user-chip" id="user-chip-btn" onclick="UI.openModal('modal-user-profile')">
+        <span class="user-chip-avatar">A</span>
+        <span id="user-display-name">Aryan Kajne (Admin)</span>
+      </div>
+      <a href="#home" class="nav-link nav-link-logout" id="nav-logout-link" style="display: none; font-size: 0.84rem;" onclick="UI.handleLogout(event)">Logout</a>
+      <button type="button" class="btn-nav-login" id="nav-login-btn" style="display: none;" onclick="UI.handleLogin()">Login</button>
+    </div>
+  </nav>
+
+  <!-- =========================================================================
+       VIEW 1: LANDING PAGE (FIGURE 9.1)
+       ========================================================================= -->
+  <main id="view-home" class="view-section active">
+    <!-- Hero Banner -->
+    <div class="hero-wrapper">
+      <section class="hero-banner">
+        <div class="hero-left">
+          <div class="hero-eyebrow">ONLINE EXAMINATION MANAGEMENT SYSTEM</div>
+          <h1 class="hero-title">Manage Your Examination Schedule<br>with Absolute Precision</h1>
+          <p class="hero-desc">
+            ExamHub provides academic departments, examination controllers, and faculty members
+            with an automated platform to register exams, publish schedules, and prevent hall conflicts
+            using PostgreSQL exclusion constraints — with end-to-end administrative oversight.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary-blue" data-view-target="create-exam">Schedule an Exam</button>
+            <button class="btn-outline-white" onclick="UI.openModal('modal-register-dept')">Register Department</button>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="how-it-works-card">
+            <h3 class="how-it-works-title">
+              <span>📋</span> How It Works
+            </h3>
+            <ul class="steps-list">
+              <li class="step-item">
+                <strong>1.</strong> Department registers academic profile & coordinators.
+              </li>
+              <li class="step-item">
+                <strong>2.</strong> Faculty lists exam with subject, duration & format.
+              </li>
+              <li class="step-item">
+                <strong>3.</strong> Admin validates schedules & checks center conflicts.
+              </li>
+              <li class="step-item">
+                <strong>4.</strong> Approved exams appear on live public notice board.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar-container">
+      <section class="stats-bar">
+        <div class="stat-box">
+          <span class="stat-number" id="stat-reg-users">24</span>
+          <span class="stat-label">Registered Users</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="stat-appr-exams">18</span>
+          <span class="stat-label">Approved Exams</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="stat-act-centers">12</span>
+          <span class="stat-label">Active Exam Centers</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Feature Grid -->
+    <section class="features-section">
+      <div class="features-header">
+        <h2 class="features-title">Everything you need to run a flawless examination system</h2>
+        <p class="features-subtitle">Robust ACID-compliant PostgreSQL database paired with responsive Flask web interface</p>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature-card">
+          <h3 class="feature-card-title">📝 Exam Listings</h3>
+          <p class="feature-card-desc">Submit comprehensive exam metadata, subject, branch, duration, and question paper details.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3 class="feature-card-title">🛡️ Schedule Conflict Check</h3>
+          <p class="feature-card-desc">PostgreSQL btree_gist exclusion constraints prevent two exams in the same hall simultaneously.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3 class="feature-card-title">⚖️ Approval Workflow</h3>
+          <p class="feature-card-desc">Examination Controller reviews submissions with audit trails before publishing schedules.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3 class="feature-card-title">📅 Public Live Schedule</h3>
+          <p class="feature-card-desc">Searchable, filterable real-time timetable for students, invigilators, and faculty.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3 class="feature-card-title">📊 Faculty Dashboard</h3>
+          <p class="feature-card-desc">Track draft, pending, approved, and completed exams with live analytics.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3 class="feature-card-title">🔐 Secure Admin Portal</h3>
+          <p class="feature-card-desc">Role-based access control protecting administrative routes and parameterized queries.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       VIEW 2: PUBLIC SCHEDULE & DASHBOARD (FIGURE 9.2)
+       ========================================================================= -->
+  <main id="view-schedules" class="view-section">
+    <div class="container-main">
+      
+      <!-- Top Card: Public Examination Timetable -->
+      <section class="schedule-timetable-card">
+        <div class="card-header-bar">
+          <h2 class="card-title-lg">Public Examination Timetable</h2>
+          <p class="card-subtitle-sm">Browse verified upcoming exams across all departments and testing centers.</p>
+        </div>
+
+        <!-- Filter Controls Row (Figure 9.2) -->
+        <div class="filter-controls-row">
+          <div class="filter-group">
+            <label for="filter-search" class="filter-label">Search by title</label>
+            <input type="text" id="filter-search" class="filter-input" placeholder="e.g. DBMS Mid-Sem">
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-subject" class="filter-label">Subject</label>
+            <select id="filter-subject" class="filter-select">
+              <option value="all">All Subjects ▼</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-center" class="filter-label">Center / Hall</label>
+            <select id="filter-center" class="filter-select">
+              <option value="all">All Centers ▼</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-date" class="filter-label">Exam Date</label>
+            <input type="date" id="filter-date" class="filter-input" value="2026-10-20">
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-sort" class="filter-label">Sort by</label>
+            <select id="filter-sort" class="filter-select">
+              <option value="earliest">Schedule (Earliest) ▼</option>
+              <option value="latest">Schedule (Latest)</option>
+              <option value="title">Title (A-Z)</option>
+              <option value="dept">Department</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <button type="button" class="btn-filter-reset" id="btn-reset-filters">Clear Filters</button>
+          </div>
+        </div>
+
+        <!-- Public Schedule Table -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>EXAM TITLE</th>
+                <th>DEPARTMENT</th>
+                <th>CENTER / HALL</th>
+                <th>SUBJECT</th>
+                <th>DATE</th>
+                <th>TIME SLOT</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="timetable-tbody">
+              <!-- Dynamically populated by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Dashed Section Divider -->
+      <hr class="section-divider-dashed">
+
+      <!-- Faculty & Administration Dashboard Section (Figure 9.2 Bottom) -->
+      <section class="dashboard-section" id="dashboard-section">
+        <div class="dashboard-heading-group">
+          <h2 class="dashboard-title">Faculty & Administration Dashboard</h2>
+          <p class="dashboard-subtitle">Welcome back, Aryan Kajne | Role: Examination Administrator (Exam Cell)</p>
+        </div>
+
+        <!-- 4 KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-title">TOTAL EXAMS</span>
+            <span class="kpi-value blue" id="kpi-total-exams">25</span>
+            <span class="kpi-desc">Submitted across college</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-title">APPROVED</span>
+            <span class="kpi-value green" id="kpi-approved-exams">23</span>
+            <span class="kpi-desc">Published to live timetable</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-title">PENDING</span>
+            <span class="kpi-value amber" id="kpi-pending-exams">1</span>
+            <span class="kpi-desc">Awaiting room verification</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-title">CANCELLED</span>
+            <span class="kpi-value red" id="kpi-cancelled-exams">1</span>
+            <span class="kpi-desc">Schedule conflict / cancelled</span>
+          </div>
+        </div>
+
+        <!-- Dual Side-by-Side Cards (Upcoming Approved & Recent Submissions) -->
+        <div class="dashboard-dual-grid">
+          <!-- Left: Upcoming Approved Exams -->
+          <div class="dashboard-box-card">
+            <h3 class="box-card-title">Upcoming Approved Exams</h3>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th>EXAM</th>
+                  <th>CENTER</th>
+                  <th>DATE & TIME</th>
+                </tr>
+              </thead>
+              <tbody id="upcoming-exams-tbody">
+                <!-- Dynamically populated by app.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Right: Recent Department Submissions -->
+          <div class="dashboard-box-card">
+            <h3 class="box-card-title">Recent Department Submissions</h3>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th>EXAM TITLE</th>
+                  <th>SUBMITTED ON</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="recent-submissions-tbody">
+                <!-- Dynamically populated by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       VIEW 3: CREATE EXAM FORM (FIGURE 9.3)
+       ========================================================================= -->
+  <main id="view-create-exam" class="view-section">
+    <div class="form-page-wrapper">
+      <div class="exam-form-card">
+        
+        <div class="form-header-group">
+          <h2 class="form-main-title">Schedule a New Examination</h2>
+          <p class="form-main-subtitle">All submissions are validated against PostgreSQL exclusion constraints for conflict prevention.</p>
+        </div>
+
+        <hr class="form-divider-line">
+
+        <!-- Conflict Violation Warning Box (Simulates PostgreSQL Exclusion Error) -->
+        <div class="conflict-violation-alert" id="form-conflict-alert">
+          <div class="alert-title">⚠️ CONFLICT DETECTED: Examination Center Overlap</div>
+          <div class="alert-msg" id="conflict-alert-message">
+            Exclusion constraint violation: This examination center is already booked for an overlapping time slot!
+          </div>
+        </div>
+
+        <form id="schedule-exam-form" class="form-grid-layout" autocomplete="off">
+          
+          <!-- Exam Title -->
+          <div class="field-group">
+            <label for="form-title" class="field-label">
+              Examination Title <span class="required-star">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="form-title" 
+              class="form-input-text" 
+              placeholder="e.g. Database Management Systems Mid-Semester Theory Examination"
+              value="Database Management Systems Mid-Semester Theory Examination"
+              required
+            >
+          </div>
+
+          <!-- Instructions & Syllabus -->
+          <div class="field-group">
+            <label for="form-instructions" class="field-label">
+              Examination Instructions & Syllabus Covered <span class="required-star">*</span>
+            </label>
+            <textarea 
+              id="form-instructions" 
+              class="form-textarea" 
+              rows="3" 
+              required
+            >Comprehensive theoretical and practical exam covering Relational Algebra, SQL, Normalization, and Transaction Management with ACID compliance.</textarea>
+          </div>
+
+          <!-- Department and Subject 2-col row -->
+          <div class="form-row-2col">
+            <div class="field-group">
+              <label for="form-department" class="field-label">
+                Academic Department <span class="required-star">*</span>
+              </label>
+              <select id="form-department" class="form-select" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="form-subject" class="field-label">
+                Subject / Discipline <span class="required-star">*</span>
+              </label>
+              <select id="form-subject" class="form-select" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Center and Duration 2-col row -->
+          <div class="form-row-2col">
+            <div class="field-group">
+              <label for="form-center" class="field-label">
+                Examination Center / Computer Lab <span class="required-star">*</span>
+              </label>
+              <select id="form-center" class="form-select" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="form-duration" class="field-label">
+                Duration (Minutes) <span class="required-star">*</span>
+              </label>
+              <input 
+                type="number" 
+                id="form-duration" 
+                class="form-input-text" 
+                value="90" 
+                min="15" 
+                max="360" 
+                required
+              >
+            </div>
+          </div>
+
+          <!-- Date, Start Time, End Time 3-col row -->
+          <div class="form-row-3col">
+            <div class="field-group">
+              <label for="form-date" class="field-label">
+                Scheduled Date <span class="required-star">*</span>
+              </label>
+              <input 
+                type="date" 
+                id="form-date" 
+                class="form-input-text" 
+                value="2026-10-20" 
+                required
+              >
+            </div>
+
+            <div class="field-group">
+              <label for="form-start-time" class="field-label">
+                Start Time <span class="required-star">*</span>
+              </label>
+              <input 
+                type="time" 
+                id="form-start-time" 
+                class="form-input-text" 
+                value="09:00:00" 
+                step="1"
+                required
+              >
+            </div>
+
+            <div class="field-group">
+              <label for="form-end-time" class="field-label">
+                End Time <span class="required-star">*</span>
+              </label>
+              <input 
+                type="time" 
+                id="form-end-time" 
+                class="form-input-text" 
+                value="10:30:00" 
+                step="1"
+                required
+              >
+            </div>
+          </div>
+
+          <!-- Conflict Prevention Notice Box (Figure 9.3) -->
+          <div class="conflict-notice-box">
+            <div class="notice-title">
+              <span>ℹ️</span> PostgreSQL Conflict Prevention Active:
+            </div>
+            <div class="notice-text" id="notice-dynamic-text">
+              The system automatically validates that Turing Computer Center Lab 101 has no conflicting scheduled examination between 09:00 and 10:30 on 2026-10-20 via btree_gist GiST index.
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-buttons-row">
+            <button type="submit" class="btn-form-submit">Submit Examination Schedule</button>
+            <button type="button" class="btn-form-cancel" id="btn-form-cancel">Cancel</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="app-footer">
+    <div class="footer-left">
+      <strong>ExamHub</strong> &copy; 2026. Online Examination Management Portal. Built with pure HTML, CSS, and JS.
+    </div>
+    <div class="footer-links">
+      <a href="#" onclick="UI.openModal('modal-db-standby-info'); return false;">Database Architecture</a>
+      <a href="#" onclick="db.resetToDefaults(); UI.renderTimetable(); UI.renderDashboard(); UI.showToast('Reset to default seed data', 'info'); return false;">Reset Data</a>
+      <a href="#home" data-view-target="home">Back to Top</a>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       MODAL 1: REGISTER DEPARTMENT
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-register-dept">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Register Academic Department</h3>
+        <button class="btn-modal-close" onclick="UI.closeModal('modal-register-dept')">&times;</button>
+      </div>
+      <form id="register-dept-form">
+        <div class="modal-body">
+          <div class="form-grid-layout">
+            <div class="field-group">
+              <label class="field-label">Department Name *</label>
+              <input type="text" id="dept-name" class="form-input-text" placeholder="e.g. Department of Cyber Security" required>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Contact Person / HOD *</label>
+              <input type="text" id="dept-contact" class="form-input-text" placeholder="e.g. Dr. Ramesh Joshi" required>
+            </div>
+            <div class="form-row-2col">
+              <div class="field-group">
+                <label class="field-label">Official Email *</label>
+                <input type="email" id="dept-email" class="form-input-text" placeholder="dept@college.ac.in" required>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Phone Number *</label>
+                <input type="tel" id="dept-phone" class="form-input-text" placeholder="9876543210" required>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Campus Location / Address *</label>
+              <input type="text" id="dept-address" class="form-input-text" placeholder="Block D, Room 102" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-form-cancel" onclick="UI.closeModal('modal-register-dept')">Cancel</button>
+          <button type="submit" class="btn-form-submit">Register Department</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: EXAM DETAILS VIEW
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-exam-details">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Examination Details</h3>
+        <button class="btn-modal-close" onclick="UI.closeModal('modal-exam-details')">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-details-body">
+        <!-- Injected dynamically by UI.showExamDetails() -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-form-cancel" onclick="UI.closeModal('modal-exam-details')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: DATABASE ARCHITECTURE & STANDBY STATUS
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-db-standby-info">
+    <div class="modal-dialog" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Database Integration Architecture (Standby Mode)</h3>
+        <button class="btn-modal-close" onclick="UI.closeModal('modal-db-standby-info')">&times;</button>
+      </div>
+      <div class="modal-body" style="font-size: 0.82rem; line-height: 1.5; color: #334155;">
+        <p style="margin-bottom: 12px;">
+          <strong>Standby Status:</strong> The web interface has been built using <strong>pure HTML5, CSS3, and modern JavaScript</strong>. It is fully operational with simulated client state, in-memory validation, and localStorage persistence.
+        </p>
+        <div style="background: #0F172A; color: #38BDF8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.75rem; margin-bottom: 14px;">
+          <div>-- Schema Target: PostgreSQL 16 + btree_gist</div>
+          <div style="color: #94A3B8;">1. USERS (user_id, full_name, email, password_hash, role)</div>
+          <div style="color: #94A3B8;">2. DEPARTMENTS (department_id, department_name, contact, email)</div>
+          <div style="color: #94A3B8;">3. SUBJECTS (subject_id, subject_name, description)</div>
+          <div style="color: #94A3B8;">4. EXAM_CENTERS (center_id, center_name, center_type, status)</div>
+          <div style="color: #94A3B8;">5. EXAMS (exam_id, title, description, duration_minutes)</div>
+          <div style="color: #94A3B8;">6. SCHEDULES (schedule_id, exam_id, center_id, date, start_time, end_time)</div>
+          <div style="color: #FB7185; margin-top: 6px;">Exclusion: no_overlap EXCLUDE USING gist (center_id WITH =, daterange WITH &&)</div>
+        </div>
+        <p>
+          The frontend data layer (<code>db</code> manager in <code>app.js</code>) is decoupled and ready. As requested, the system is <strong>waiting for your call</strong> to plug in the live PostgreSQL server and Flask/Express API backend.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary-blue" onclick="UI.closeModal('modal-db-standby-info')">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: USER PROFILE / LOGIN SWITCHER
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-user-profile">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Active User Session</h3>
+        <button class="btn-modal-close" onclick="UI.closeModal('modal-user-profile')">&times;</button>
+      </div>
+      <div class="modal-body" style="font-size: 0.85rem;">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+          <div style="width: 46px; height: 46px; border-radius: 50%; background: #1E40AF; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700;">
+            A
+          </div>
+          <div>
+            <div style="font-weight: 800; color: #0F172A; font-size: 1rem;">Aryan Kajne</div>
+            <div style="color: #64748B; font-size: 0.8rem;">Role: Examination Administrator (Exam Cell)</div>
+            <div style="color: #16A34A; font-weight: 600; font-size: 0.75rem;">● Authenticated Session Active</div>
+          </div>
+        </div>
+        <p style="color: #64748B; font-size: 0.8rem;">
+          Permissions: Full read/write access to examinations, scheduling matrix, room conflict overrides, and department registry.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-form-cancel" onclick="UI.closeModal('modal-user-profile')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>

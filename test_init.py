@@ -1,0 +1,143 @@
+import os
+import docx
+from docx import Document
+from docx.shared import Inches, Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
+from docx.oxml import OxmlElement, parse_xml
+from docx.oxml.ns import nsdecls, qn
+
+base_dir = r"C:\Users\asus\.gemini\antigravity\scratch\online_examination_system"
+doc_path = os.path.join(base_dir, "Online_Examination_System_Case_Study.docx")
+
+doc = Document()
+
+# Set standard 1-inch margins
+for section in doc.sections:
+    section.top_margin = Inches(1.0)
+    section.bottom_margin = Inches(1.0)
+    section.left_margin = Inches(1.0)
+    section.right_margin = Inches(1.0)
+
+# Configure Normal style
+normal_style = doc.styles['Normal']
+normal_style.font.name = 'Times New Roman'
+normal_style.font.size = Pt(11)
+normal_style.font.color.rgb = RGBColor(0x11, 0x18, 0x27)
+normal_style.paragraph_format.line_spacing = 1.15
+normal_style.paragraph_format.space_after = Pt(4)
+
+# XML Helpers
+def set_cell_background(cell, fill_hex):
+    tcPr = cell._tc.get_or_add_tcPr()
+    shd = parse_xml(f'<w:shd {nsdecls("w")} w:fill="{fill_hex}"/>')
+    tcPr.append(shd)
+
+def set_cell_margins(cell, top=100, bottom=100, left=150, right=150):
+    tcPr = cell._tc.get_or_add_tcPr()
+    tcMar = parse_xml(f'''
+        <w:tcMar {nsdecls("w")}>
+            <w:top w:w="{top}" w:type="dxa"/>
+            <w:bottom w:w="{bottom}" w:type="dxa"/>
+            <w:left w:w="{left}" w:type="dxa"/>
+            <w:right w:w="{right}" w:type="dxa"/>
+        </w:tcMar>
+    ''')
+    tcPr.append(tcMar)
+
+def set_table_borders(table, color="D3D3D3", sz="4", val="single"):
+    tblPr = table._tbl.tblPr
+    borders = parse_xml(f'''
+        <w:tblBorders {nsdecls("w")}>
+            <w:top w:val="{val}" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:bottom w:val="{val}" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:left w:val="{val}" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:right w:val="{val}" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:insideH w:val="{val}" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:insideV w:val="{val}" w:sz="{sz}" w:space="0" w:color="{color}"/>
+        </w:tblBorders>
+    ''')
+    tblPr.append(borders)
+
+def add_heading_1(doc, text):
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(14)
+    p.paragraph_format.space_after = Pt(6)
+    p.paragraph_format.keep_with_next = True
+    run = p.add_run(text)
+    run.font.name = 'Times New Roman'
+    run.font.size = Pt(14)
+    run.font.bold = True
+    run.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
+    return p
+
+def add_heading_2(doc, text):
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(11)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.keep_with_next = True
+    run = p.add_run(text)
+    run.font.name = 'Times New Roman'
+    run.font.size = Pt(12)
+    run.font.bold = True
+    run.font.color.rgb = RGBColor(0x1E, 0x29, 0x3B)
+    return p
+
+def add_heading_3(doc, text):
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(8)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.keep_with_next = True
+    run = p.add_run(text)
+    run.font.name = 'Times New Roman'
+    run.font.size = Pt(11)
+    run.font.bold = True
+    run.font.color.rgb = RGBColor(0x33, 0x41, 0x55)
+    return p
+
+def add_bullet(doc, bold_prefix, text):
+    p = doc.add_paragraph(style='List Bullet')
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.15
+    if bold_prefix:
+        r_bold = p.add_run(bold_prefix)
+        r_bold.font.name = 'Times New Roman'
+        r_bold.font.bold = True
+        r_bold.font.size = Pt(10.5)
+    r_text = p.add_run(text)
+    r_text.font.name = 'Times New Roman'
+    r_text.font.size = Pt(10.5)
+    return p
+
+def add_code_block(doc, code_str):
+    tbl = doc.add_table(rows=1, cols=1)
+    tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
+    cell = tbl.cell(0, 0)
+    set_cell_background(cell, "F8FAFC")
+    set_cell_margins(cell, top=120, bottom=120, left=180, right=180)
+    
+    # Custom light gray border
+    tcPr = cell._tc.get_or_add_tcPr()
+    borders = parse_xml(f'''
+        <w:tcBorders {nsdecls("w")}>
+            <w:top w:val="single" w:sz="4" w:space="0" w:color="CBD5E1"/>
+            <w:left w:val="single" w:sz="12" w:space="0" w:color="3B82F6"/>
+            <w:bottom w:val="single" w:sz="4" w:space="0" w:color="CBD5E1"/>
+            <w:right w:val="single" w:sz="4" w:space="0" w:color="CBD5E1"/>
+        </w:tcBorders>
+    ''')
+    tcPr.append(borders)
+    
+    p = cell.paragraphs[0]
+    p.paragraph_format.space_after = Pt(0)
+    p.paragraph_format.line_spacing = 1.05
+    run = p.add_run(code_str)
+    run.font.name = 'Consolas'
+    run.font.size = Pt(8.5)
+    run.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
+    
+    p_spacer = doc.add_paragraph()
+    p_spacer.paragraph_format.space_before = Pt(0)
+    p_spacer.paragraph_format.space_after = Pt(4)
+
+print("Docx generator framework initialized.")
