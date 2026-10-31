@@ -96,11 +96,16 @@ async function registerStudent(req, res, next) {
       semester: semNum
     };
 
-    return res.status(201).json({
-      success: true,
-      message: 'Student account registered successfully.',
-      user: req.session.user,
-      redirect: '/student/dashboard.html'
+    req.session.save((sessionError) => {
+      if (sessionError) {
+        return next(sessionError);
+      }
+      return res.status(201).json({
+        success: true,
+        message: 'Student account registered successfully.',
+        user: req.session.user,
+        redirect: '/student/dashboard.html'
+      });
     });
   } catch (err) {
     await client.query('ROLLBACK');
@@ -189,11 +194,16 @@ async function login(req, res, next) {
 
     const redirectUrl = user.role === 'Admin' ? '/admin/dashboard.html' : '/student/dashboard.html';
 
-    return res.json({
-      success: true,
-      message: `Welcome back, ${user.full_name}!`,
-      user: req.session.user,
-      redirect: redirectUrl
+    req.session.save((sessionError) => {
+      if (sessionError) {
+        return next(sessionError);
+      }
+      return res.json({
+        success: true,
+        message: `Welcome back, ${user.full_name}!`,
+        user: req.session.user,
+        redirect: redirectUrl
+      });
     });
   } catch (err) {
     next(err);
